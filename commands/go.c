@@ -6,12 +6,33 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <dirent.h>
 
 
 void go (int argc, char* argv[]){
 
     if(argv[1] == NULL){
-        printf("Where should i go?\n Print possible goto places");
+        printf("Where should i go?\n");
+          DIR *dp;
+        struct dirent *dirp;
+        char * path [100];
+        getcwd(path,100);
+        argv[1] = path;
+        if ((dp = opendir(argv[1])) == NULL) {
+             perror("ERROR");
+        }
+        while ((dirp = readdir(dp)) != NULL)
+            if(dirp -> d_type == DT_DIR){ //ONLY directories ARE PRINTeD, NO files.
+               // printf("%hhu\n", dirp -> d_type);
+                if(!strstr(dirp->d_name,".")){ //dicarding hidden directories "."
+                    printf("%s\n", dirp->d_name);
+                }
+            }
+
+        if (closedir(dp) == -1)
+            perror("closedir");
+
+
     }else if(strcmp(argv[1],"back")==0){
         chdir("..");
         char cwd[200];

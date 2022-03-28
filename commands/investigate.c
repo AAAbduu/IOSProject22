@@ -10,10 +10,11 @@
 
 int main(int argc, char *argv[])
 {
-    DIR *dp;
-    struct dirent *dirp;
+    
 
     if (argc <=1) {
+        DIR *dp;
+        struct dirent *dirp;
             //fprintf(stderr, "Usage: ./program directory_name\n");
             //exit(EXIT_FAILURE);
         char * path [100];
@@ -27,29 +28,36 @@ int main(int argc, char *argv[])
         while ((dirp = readdir(dp)) != NULL)
             if(dirp -> d_type == DT_REG){ //ONLY FILES ARE PRINTeD, NO DIRECTORIES.
                 //printf("%hhu\n", dirp -> d_type);
-                printf("%s\n", dirp->d_name);
+                
+                if(!strstr(dirp->d_name,".")){ //dicarding hidden files "."
+                    printf("%s\n", dirp->d_name);
+                }
             }
 
         if (closedir(dp) == -1)
             perror("closedir");
 
     }else if(argc==2){
+
+
         int fd = open(argv[1], O_RDONLY); 
-        //int bytes = read (fd,content,sizeof(content)-1);
-        //write(1,content,bytes);
-        printf("fd = %d/n", fd); 
-        if ((dp = opendir(argv[1])) == NULL) {
-        perror("ERROR");
-    }
-        while ((dirp = readdir(dp)) != NULL)
-            if(dirp -> d_type == DT_REG){ //ONLY FILES ARE PRINTeD, NO DIRECTORIES.
-                //printf("%hhu\n", dirp -> d_type);
-                printf("%s\n", dirp->d_name);
-            }
 
-    if (closedir(dp) == -1)
-        perror("closedir");
+        if(fd<0){
 
+            puts("There is no such object to investigate...");
+            exit(0);
+
+        }
+        
+        char buf[4096];
+        int lung;
+
+        while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
+        {
+             write(0,buf,lung); //write on terminal
+        }
+
+        close(fd);
     }
 
     exit(EXIT_SUCCESS);
