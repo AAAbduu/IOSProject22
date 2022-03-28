@@ -5,7 +5,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+//#include "commands.h"
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
@@ -64,24 +68,42 @@ int read_args(int* argcp, char* args[], int max, int* eofp)
 
 int execute(int argc, char *argv[])
 {
-   printf("%s\n",argv[0]);
-   if (argc==2){
-      printf("%s\n",argv[1]);
-   }
+    pid_t pid;
+		// If the quit statement is found 
+		if(strcmp(*(argv), "quit") == 0)			
+			exit(0);
+		
+		if(strcmp(argv[0], "go") == 0) {
+        //pid = fork();
+        
+        //if(pid ==0){
+			execvp("commands/goo", argv);
+          
+        //}
+           // kill(pid, SIGKILL);
+			//go(argc, argv);
+		}		
+		
+
+
 }
 
-main ()
+int main ()
 {
    char * Prompt = "myShell0> ";
    int eof= 0;
    int argc;
    char *args[MAXARGS];
 
+    
    while (1) {
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
+         
          execute(argc, args);
+        
       }
+     
       if (eof) exit(0);
    }
 }
