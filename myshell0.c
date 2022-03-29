@@ -17,7 +17,7 @@
 
 /////////// reading commands:
 
-a
+
 
 int read_args(int* argcp, char* args[], int max, int* eofp)
 {
