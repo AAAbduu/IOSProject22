@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-//#include "commands.h"
+#include "commands/go.h"
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
@@ -79,14 +79,13 @@ int execute(int argc, char *argv[])
         //pid = fork();
         
         //if(pid ==0){
-			execvp("commands/goo", argv);
+			go(argc, argv);
           
         //}
            // kill(pid, SIGKILL);
 			//go(argc, argv);
 		}		
 		
-
 
 }
 
