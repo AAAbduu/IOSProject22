@@ -9,8 +9,8 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "commands/go.h"
-#include "commands/investigate.h"
+#include "go.h"
+#include "investigate.h"
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
