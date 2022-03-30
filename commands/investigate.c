@@ -7,8 +7,14 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include "investigate.h"
 
-int main(int argc, char *argv[])
+
+#ifdef FUNCTION
+void investigate (int argc, char* argv[])
+#else
+int main (int argc, char* argv[])
+#endif
 {
     
 
@@ -60,5 +66,4 @@ int main(int argc, char *argv[])
         close(fd);
     }
 
-    exit(EXIT_SUCCESS);
 }

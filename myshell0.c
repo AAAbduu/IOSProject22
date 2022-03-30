@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "commands/go.h"
+#include "commands/investigate.h"
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
@@ -85,6 +86,11 @@ int execute(int argc, char *argv[])
            // kill(pid, SIGKILL);
 			//go(argc, argv);
 		}		
+      if(strcmp(argv[0], "investigate") == 0) {
+
+         investigate(argc, argv);
+
+      }
 		
 
 }

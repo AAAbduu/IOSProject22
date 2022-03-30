@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include "go.h"
-//#define FUNCTION
+
 
  
 #ifdef FUNCTION
