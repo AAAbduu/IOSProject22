@@ -7,9 +7,16 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include "go.h"
+//#define FUNCTION
 
-
-void go (int argc, char* argv[]){
+ 
+#ifdef FUNCTION
+void go (int argc, char* argv[])
+#else
+int main (int argc, char* argv[])
+#endif
+{
 
     if(argv[1] == NULL){
         printf("Where should i go?\n");
@@ -47,16 +54,6 @@ void go (int argc, char* argv[]){
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         printf("Current working dir: %s\n", cwd);
      }
-    }
-
-    //RETURN TO PARENT DIRECTORY OR MAY BE CHANGE ENVIRONMENT VARIABLE.
-    
+    }  
 }  
-
- int main(int argc, char* argv[]){
-
-    go (argc, argv);  //IN ORDER TO WORK INDPENDENTLY, UNCOMMENT THIS FUNCTION, COMPILE, EXECUTE...
-    
-} 
-
 

@@ -1,5 +1,8 @@
 {
     "git.allowForcePush": true,
     "git.allowNoVerifyCommit": true,
-    "git.alwaysShowStagedChangesResourceGroup": true
+    "git.alwaysShowStagedChangesResourceGroup": true,
+    "files.associations": {
+        "go.h": "c"
+    }
 }
