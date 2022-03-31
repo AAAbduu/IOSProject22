@@ -97,13 +97,20 @@ int execute(int argc, char *argv[])
 
 int main ()
 {
-   char * Prompt = "myShell0> ";
+   chdir("gameTree/Home");
+   char dir [MAXLINE]; 
+   getcwd(dir, sizeof(dir));
+   char *last = strrchr(dir, '/');
+   char * Prompt = strcat(last+1, ">");
    int eof= 0;
    int argc;
    char *args[MAXARGS];
 
     
    while (1) {
+      getcwd(dir, sizeof(dir));
+      char *last = strrchr(dir, '/');
+      char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
          
