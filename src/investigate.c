@@ -36,7 +36,7 @@ int main (int argc, char* argv[])
                 //printf("%hhu\n", dirp -> d_type);
                 
                 if(!strstr(dirp->d_name,".")){ //dicarding hidden files "."
-                    printf("%s\n", dirp->d_name);
+                    printf("\n%s\n\n", dirp->d_name);
                 }
             }
 
@@ -60,7 +60,9 @@ int main (int argc, char* argv[])
 
         while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
         {
+              puts("\n\n");
              write(0,buf,lung); //write on terminal
+             puts("\n");
         }
 
         close(fd);

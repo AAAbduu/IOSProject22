@@ -19,12 +19,18 @@ int main (int argc, char* argv[])
 {
 
     if(argv[1] == NULL){
-        printf("Where should i go?\n");
+        printf("Where should i go?\n\n");
           DIR *dp;
         struct dirent *dirp;
         char * path [100];
         getcwd(path,100);
         argv[1] = path;
+        char cwd[200];
+        getcwd(cwd, sizeof(cwd));
+        char *last = strrchr(cwd, '/');
+        if(strcmp(last+1,"Home")<0){
+            puts("back");
+        }
         if ((dp = opendir(argv[1])) == NULL) {
              perror("ERROR");
         }
@@ -32,7 +38,7 @@ int main (int argc, char* argv[])
             if(dirp -> d_type == DT_DIR){ //ONLY directories ARE PRINTeD, NO files.
                // printf("%hhu\n", dirp -> d_type);
                 if(!strstr(dirp->d_name,".")){ //dicarding hidden directories "."
-                    printf("%s\n", dirp->d_name);
+                    printf("%s\n\n", dirp->d_name);
                 }
             }
 
@@ -41,8 +47,15 @@ int main (int argc, char* argv[])
 
 
     }else if(strcmp(argv[1],"back")==0){
-        chdir("..");
         char cwd[200];
+        getcwd(cwd, sizeof(cwd));
+        char *last = strrchr(cwd, '/');
+        if(strcmp(last+1,"Home")<0){
+        chdir("..");
+        }else{
+            puts("I cant go back anymore!");
+        }
+        
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         printf("Current working dir: %s\n", cwd);
     }
