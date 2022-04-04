@@ -11,10 +11,13 @@
 #include <sys/wait.h>
 #include "go.h"
 #include "investigate.h"
+//#include <curses.h>
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
 #define MAXARGS 20
+#define UP_BTN 72
+#define DOWN_BTN  80
 
 /////////// reading commands:
 
@@ -112,11 +115,27 @@ int main ()
       char *last = strrchr(dir, '/');
       char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
-      if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
+      char key = getchar();
+
+      switch (key){
+         case 72:
+         printf("BOTON ARRIBA");
+            break;
+      
+         default:
+         if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
          
          execute(argc, args);
         
       }
+         break;
+      }
+
+      }
+      {
+      
+
+      
      
       if (eof) exit(0);
    }
