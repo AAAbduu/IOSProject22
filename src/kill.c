@@ -1,31 +1,28 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <fcntl.h>
 
+main( int argc,char *argv[] )
+{
+    int i,fd1,fd2;
+    char *file1,*file2,buf[2];
+    
+    file1 = argv[1];
+    file2 = argv[2];
 
+    fd1 = open(file1,O_RDONLY,0777);
+    fd2 = creat(file2,0777);
 
-    int main(int argc, char *argv[])
-    {
-      DIR* dir_ptr;     // the directory
-      struct dirent* direntp;
+    while(i = read(fd1,buf,1) > 0)
+    write(fd2,buf,1);
+    
+    remove(file1);
 
-
-        char src_folder[256];
-
-
-        dir_ptr = opendir("."); //open directory
-        if ( dir_ptr == NULL )
-        {
-            perror( "." );
-            exit( 1 );
-
-        }
-        rename(src_folder, "."src_folder);
-        closedir( dir_ptr );
-
-        return 0;
-    }
+    close(fd1);
+    close(fd2);
+}
