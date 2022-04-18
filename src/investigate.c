@@ -7,23 +7,14 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
-#include "investigate.h"
 
 
-#ifdef FUNCTION
-void investigate (int argc, char* argv[])
-#else
 int main (int argc, char* argv[])
-#endif
 {
-    
-
     if (argc <=1) {
         DIR *dp;
         struct dirent *dirp;
-            //fprintf(stderr, "Usage: ./program directory_name\n");
-            //exit(EXIT_FAILURE);
-        char * path [100];
+        char path [100];
         getcwd(path,100);
     
         argv[1] = path;
@@ -35,7 +26,7 @@ int main (int argc, char* argv[])
             if(dirp -> d_type == DT_REG){ //ONLY FILES ARE PRINTeD, NO DIRECTORIES.
                 //printf("%hhu\n", dirp -> d_type);
                 
-                if(!strstr(dirp->d_name,".")){ //dicarding hidden files "."
+                if(!strstr(dirp->d_name,"history") && !strstr(dirp->d_name,".")){ //dicarding hidden files "."
                     printf("\n%s\n\n", dirp->d_name);
                 }
             }
@@ -60,7 +51,7 @@ int main (int argc, char* argv[])
 
         while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
         {
-              puts("\n\n");
+             puts("\n\n");
              write(0,buf,lung); //write on terminal
              puts("\n");
         }
