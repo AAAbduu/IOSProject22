@@ -7,18 +7,12 @@
 #include <errno.h>
 #include <fcntl.h>
 
-void calculatePath(){
-    
-    chdir("../gameTree");
-
-}
 
 
 int main (int argc, char* argv[])
 {
-    if(argv[1]==NULL){
+    if(argv[1]>3){
         
-        calculatePath();
 
         char path[300];
 
@@ -50,15 +44,13 @@ int main (int argc, char* argv[])
         }
 
         
-    }else if(argc>1){
-
-        calculatePath();
+    }else if(argc==1){
 
         char path[300];
 
         getcwd(path,300);
 
-        strcat(path,"/history");
+        strcat(path,"/history.txt");
 
         int fd = open(path,O_RDWR|O_APPEND|O_CREAT, 0644);
 
@@ -66,11 +58,15 @@ int main (int argc, char* argv[])
 
         if(fd>0){
             puts("I reached here");
-            printf("%s",argv);
-            //char calculateCommand [128];
-            //strcat(calculateCommand,argv);
-            //int lung = sizeof(calculateCommand);
-            write(fd,*argv,sizeof(argv));
+            char calculate[100];
+            char *argv = {"1","2","3"};
+            char *aux = argv;
+            while(*aux){
+                strcat(calculate,aux);
+                aux = aux +1;
+            }
+            printf("%s",calculate);
+            write(fd,calculate,strlen(calculate));
             close(fd);
         }
         

@@ -17,6 +17,10 @@
 
 char BINPATH [456];
 
+char PREV_PATH [456];
+
+char HISTPATH [456];
+
 /////////// reading commands:
 
 
@@ -157,6 +161,8 @@ int execute(int argc, char *argv[])
       }
 
       if(strcmp(argv[0], "history") == 0) {
+         getcwd(PREV_PATH,sizeof(PREV_PATH));
+         chdir(HISTPATH);
          strcpy(commandPath,BINPATH);
          strcat(commandPath,"/history");
          pid = fork();
@@ -166,7 +172,7 @@ int execute(int argc, char *argv[])
             exit(0);
          }
         while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
-
+        chdir(PREV_PATH);
       }
 		
 
@@ -175,6 +181,8 @@ int execute(int argc, char *argv[])
 int main ()
 {
    getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
+   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
+   strcat(HISTPATH, "/gameTree");
    strcat(BINPATH,"/bin");
    chdir("gameTree/Home");
    char dir [MAXLINE]; 
@@ -196,6 +204,8 @@ int main ()
          if(strcmp(args[0], "history")!=0 && argc >1){
             pid_t pid, wpid;
             int status;
+            getcwd(PREV_PATH,sizeof(PREV_PATH));
+            chdir(HISTPATH);
             char commandPath[456];
             strcpy(commandPath,BINPATH);
             strcat(commandPath,"/history");
@@ -206,6 +216,7 @@ int main ()
             exit(0);
          }
             while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
+            chdir(PREV_PATH);
          }
       }
  

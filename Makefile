@@ -28,7 +28,7 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 
 .PHONY: clean
 clean:
-	rm -f "./gameTree/history"
+	rm -f "./gameTree/history.txt"
 	rm -f scaperoom
 	rm -r -f $(OBJ_DIR)
 	rm -r -f $(BIN_DIR)
