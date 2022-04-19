@@ -3,6 +3,9 @@
     "git.allowNoVerifyCommit": true,
     "git.alwaysShowStagedChangesResourceGroup": true,
     "files.associations": {
-        "go.h": "c"
+        "go.h": "c",
+        "curses.h": "c",
+        "stdlib.h": "c",
+        "wait.h": "c"
     }
 }
