@@ -200,8 +200,7 @@ int main ()
       char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
-         execute(argc, args);
-         if(strcmp(args[0], "history")!=0 && argc >1){
+         if(strcmp(args[0], "history")!=0 && argc >=1){
             pid_t pid, wpid;
             int status;
             getcwd(PREV_PATH,sizeof(PREV_PATH));
@@ -218,6 +217,7 @@ int main ()
             while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
             chdir(PREV_PATH);
          }
+         execute(argc, args);
       }
  
       if (eof) exit(0);

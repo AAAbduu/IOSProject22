@@ -11,9 +11,8 @@
 
 int main (int argc, char* argv[])
 {
-    if(argv[1]>3){
+    if(argv[1]==NULL){
         
-
         char path[300];
 
         getcwd(path,300);
@@ -27,7 +26,6 @@ int main (int argc, char* argv[])
         if(fd<0){
             puts("You have no recents movements yet!");
             close(fd);
-            //exit(1);
         }else{
 
             puts("So far these are your movements:\n\n");
@@ -36,7 +34,7 @@ int main (int argc, char* argv[])
 
             while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
             {
-                puts("\n\n");
+                puts("\n");
                 write(0,buf,lung); //write on terminal
                 puts("\n");
             }
@@ -44,7 +42,7 @@ int main (int argc, char* argv[])
         }
 
         
-    }else if(argc==1){
+    }else if(argc>1){
 
         char path[300];
 
@@ -54,19 +52,32 @@ int main (int argc, char* argv[])
 
         int fd = open(path,O_RDWR|O_APPEND|O_CREAT, 0644);
 
-        //printf("%d",fd);
-
         if(fd>0){
-            puts("I reached here");
-            char calculate[100];
-            char *argv = {"1","2","3"};
-            char *aux = argv;
-            while(*aux){
-                strcat(calculate,aux);
-                aux = aux +1;
+
+
+            char *calculate;
+            calculate = (char*)malloc(sizeof(argv) * sizeof(char*));
+            
+            int limiter = 0;
+
+            //puts("i reached here");
+            
+            if(sizeof(char*) ==8){
+                limiter = (sizeof(argv)/sizeof(char*)) +1;
+            }else{ //CHECKING MACHINE ARCHITECTURE... IF 64bit, sizeof(char*) = 8 else 4.
+                limiter = (sizeof(argv)/sizeof(char*));
             }
-            printf("%s",calculate);
+            puts("i reached here");
+            //printf("%d",limiter);
+             
+            for(int i = 0; i<argc;i++){
+                strcat(calculate, argv[i]);
+                //printf("%s, %d",calculate,i);
+                strcat(calculate, " ");
+            }
+            
             write(fd,calculate,strlen(calculate));
+            write(fd,"\n",sizeof("\n"));
             close(fd);
         }
         
@@ -74,4 +85,3 @@ int main (int argc, char* argv[])
 
     
 }
-
