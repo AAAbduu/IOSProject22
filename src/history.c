@@ -58,18 +58,6 @@ int main (int argc, char* argv[])
             char *calculate;
             calculate = (char*)malloc(sizeof(argv) * sizeof(char*));
             
-            int limiter = 0;
-
-            //puts("i reached here");
-            
-            if(sizeof(char*) ==8){
-                limiter = (sizeof(argv)/sizeof(char*)) +1;
-            }else{ //CHECKING MACHINE ARCHITECTURE... IF 64bit, sizeof(char*) = 8 else 4.
-                limiter = (sizeof(argv)/sizeof(char*));
-            }
-            puts("i reached here");
-            //printf("%d",limiter);
-             
             for(int i = 0; i<argc;i++){
                 strcat(calculate, argv[i]);
                 //printf("%s, %d",calculate,i);
