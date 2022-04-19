@@ -200,7 +200,7 @@ int main ()
       char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
-         if(strcmp(args[0], "history")!=0 && argc >=1){
+         if(strcmp(args[0], "history")!=0 && argc >1){
             pid_t pid, wpid;
             int status;
             getcwd(PREV_PATH,sizeof(PREV_PATH));
