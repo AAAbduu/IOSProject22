@@ -21,6 +21,8 @@ char PREV_PATH [456];
 
 char HISTPATH [456];
 
+char MANPATH [456];
+
 /////////// reading commands:
 
 
@@ -160,6 +162,22 @@ int execute(int argc, char *argv[])
 
       }
 
+      if(strcmp(argv[0], "myman") == 0) {
+         getcwd(PREV_PATH,sizeof(PREV_PATH));
+         chdir(MANPATH);
+         strcpy(commandPath,BINPATH);
+         strcat(commandPath,"/myman");
+         pid = fork();
+
+        
+         if(pid ==0){
+            execvp(commandPath,argv);
+            exit(0);
+         }
+         while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
+         chdir(PREV_PATH);
+      }
+
       if(strcmp(argv[0], "history") == 0) {
          getcwd(PREV_PATH,sizeof(PREV_PATH));
          chdir(HISTPATH);
@@ -181,9 +199,12 @@ int execute(int argc, char *argv[])
 int main ()
 {
    getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
-   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
+   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT HISTPATH GLOBAL VARIABLE PATH
+   getcwd(MANPATH,sizeof(MANPATH)); //GETTING CONSTANT MANPATH GLOBAL VARIABLE PATH
+
    strcat(HISTPATH, "/gameTree");
    strcat(BINPATH,"/bin");
+   strcat(MANPATH,"/manpages");
    chdir("gameTree/Home");
    char dir [MAXLINE]; 
    getcwd(dir, sizeof(dir));
