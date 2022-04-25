@@ -213,20 +213,12 @@ int main ()
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
          if(strcmp(args[0], "history")!=0 && argc >1){
-            pid_t pid, wpid;
-            int status;
             getcwd(PREV_PATH,sizeof(PREV_PATH));
             chdir(HISTPATH);
             char commandPath[456];
             strcpy(commandPath,BINPATH);
             strcat(commandPath,"/history");
-            pid = fork();
-        
-            if(pid ==0){
-            execvp(commandPath,args);
-            exit(0);
-         }
-            while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
+            int x = executeChild(commandPath, args);
             chdir(PREV_PATH);
          }
          execute(argc, args);
