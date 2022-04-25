@@ -76,7 +76,6 @@ int read_args(int* argcp, char* args[], int max, int* eofp)
 
 
 int go (int argc, char* argv[])
-
 {
 
     if(argv[1] == NULL){
@@ -90,7 +89,7 @@ int go (int argc, char* argv[])
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
         if(strcmp(last+1,"Home")<0){
-            puts("back");
+            puts("Back");
         }
         if ((dp = opendir(argv[1])) == NULL) {
              perror("ERROR");
@@ -114,20 +113,12 @@ int go (int argc, char* argv[])
         if(strcmp(last+1,"Home")<0){
         chdir("..");
         }else{
-            puts("I cant go back anymore!");
+            puts("I can't go back anymore!");
         }
         
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("Current working dir: %s\n", cwd);
-    }
         
     }else if(chdir(argv[1])<0){
-    printf("I cant go there!\n ");
-    }else{
-        char cwd[200];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("Current working dir: %s\n", cwd);
-     }
+    printf("I can't go there!\n ");
     }  
 }  
 
@@ -184,7 +175,7 @@ int execute(int argc, char *argv[])
          chdir(PREV_PATH);
          return x;
       }
-
+//GENERAL CASE IF NO SPECIAL CASE IS DETECTED
       strcpy(commandPath,BINPATH);
       strcat(commandPath,"/");
       strcat(commandPath,argv[0]);
