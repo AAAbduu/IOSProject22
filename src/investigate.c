@@ -28,6 +28,7 @@ int main (int argc, char* argv[])
                 
                 if(!strstr(dirp->d_name,"history") && !strstr(dirp->d_name,".")){ //dicarding hidden files "."
                     printf("\n%s\n\n", dirp->d_name);
+                    
                 }
             }
 

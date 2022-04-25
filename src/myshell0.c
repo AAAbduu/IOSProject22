@@ -75,7 +75,7 @@ int read_args(int* argcp, char* args[], int max, int* eofp)
 }
 
 
-void go (int argc, char* argv[])
+int go (int argc, char* argv[])
 
 {
 
@@ -135,6 +135,21 @@ void go (int argc, char* argv[])
 
 ///////////////////////////////////////
 
+int executeChild(char *commandPath[],char *argv[]){
+   pid_t pid, wpid;
+   int status;
+   pid = fork();
+        
+      if(pid ==0){
+         execvp(commandPath,argv);
+         exit(0);
+      }
+      while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes
+   
+
+}
+
+
 int execute(int argc, char *argv[])
 {
     pid_t pid, wpid;
@@ -146,36 +161,18 @@ int execute(int argc, char *argv[])
 		
 		if(strcmp(argv[0], "go") == 0) {
 			go(argc, argv);
-      
+
 		}		
-      if(strcmp(argv[0], "investigate") == 0) {
-         strcpy(commandPath,BINPATH);
-         strcat(commandPath,"/investigate");
-         pid = fork();
-
-        
-         if(pid ==0){
-            execvp(commandPath,argv);
-            exit(0);
-         }
-         while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
-
-      }
-
       if(strcmp(argv[0], "myman") == 0) {
          getcwd(PREV_PATH,sizeof(PREV_PATH));
          chdir(MANPATH);
          strcpy(commandPath,BINPATH);
          strcat(commandPath,"/myman");
-         pid = fork();
 
-        
-         if(pid ==0){
-            execvp(commandPath,argv);
-            exit(0);
-         }
-         while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
+         int x = executeChild(commandPath, argv); 
+
          chdir(PREV_PATH);
+         return x;
       }
 
       if(strcmp(argv[0], "history") == 0) {
@@ -183,18 +180,21 @@ int execute(int argc, char *argv[])
          chdir(HISTPATH);
          strcpy(commandPath,BINPATH);
          strcat(commandPath,"/history");
-         pid = fork();
-        
-         if(pid ==0){
-            execvp(commandPath,argv);
-            exit(0);
-         }
-        while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes 
-        chdir(PREV_PATH);
+         int x = executeChild(commandPath, argv);
+         chdir(PREV_PATH);
+         return x;
       }
-		
+
+      strcpy(commandPath,BINPATH);
+      strcat(commandPath,"/");
+      strcat(commandPath,argv[0]);
+      int x = executeChild(commandPath,argv);
+		return x;
 
 }
+
+
+
 
 int main ()
 {
