@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <time.h>
 
 
 int main (int argc, char* argv[])
@@ -30,7 +31,14 @@ int main (int argc, char* argv[])
                     char character[30];
                     strcpy(character,dirp->d_name);
                     char *last = strchr(character,'-');
-                    printf("\n%s\n\n", last+1);
+                    char charname[10];
+                    int i = 1;
+                    while(last[i]!='.'){
+                        charname[i-1] = last[i];
+                        i++;
+                    }
+                    
+                    printf("\n%s\n\n", charname);
                     
                 }
             }
@@ -44,24 +52,42 @@ int main (int argc, char* argv[])
 
         strcpy(character, "char-");
         strcat(character,argv[1]);
+        strcat(character,".txt");
         int fd = open(character, O_RDONLY); 
 
         if(fd<0){
 
-            puts("Who? Are you talking with ghosts?");
+            puts("Who? \nAm i talking with ghosts?");
             exit(0);
 
         }
         
-        char buf[4096];
-        int lung;
+        char buf[(5*90)];
+        int lung = sizeof(buf);
+        int lower = 1, upper = 4;
+        srand(time(0));
+        int num = (rand() % (upper - lower + 1)) + lower;
+        lseek(fd,lung*num+9,SEEK_CUR);
 
-        while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
-        {
-             puts("\n\n");
+
+        printf("%d\n", num);
+
+        //char buff[1];
+        //read(fd,&buff,1);
+        char n = num +'0';
+        //while(n!=buff[0]){
+            //read(fd,&buff,sizeof(char));
+            //write(1,buff,sizeof(char));
+            //lseek(fd,sizeof(char),SEEK_CUR);
+            
+        //}
+
+        read(fd,buf,sizeof(buf)); //read as much as a chunk of dialogue in file
+        
+             puts("\n");
              write(0,buf,lung); //write on terminal
              puts("\n");
-        }
+        
 
         close(fd);
     }
