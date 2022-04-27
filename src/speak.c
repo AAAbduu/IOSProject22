@@ -64,17 +64,21 @@ int main (int argc, char* argv[])
         
         char buf[(5*90)];
         int lung = sizeof(buf);
-        int lower = 1, upper = 4;
+        int lower = 0, upper = 4;
         srand(time(0));
-        int num = (rand() % (upper - lower + 1)) + lower;
-        lseek(fd,lung*num+9,SEEK_CUR);
+        //int num = (rand() % (upper - lower + 1)) + lower;
+        for(int i =0; i<5;i++){
+        lseek(fd,0,SEEK_SET);
+        int num = i;
+        if(i!=0){
+            lseek(fd,lung*num+13,SEEK_CUR);
+        }
 
 
         printf("%d\n", num);
 
         //char buff[1];
         //read(fd,&buff,1);
-        char n = num +'0';
         //while(n!=buff[0]){
             //read(fd,&buff,sizeof(char));
             //write(1,buff,sizeof(char));
@@ -87,7 +91,7 @@ int main (int argc, char* argv[])
              puts("\n");
              write(0,buf,lung); //write on terminal
              puts("\n");
-        
+        }
 
         close(fd);
     }

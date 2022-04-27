@@ -88,8 +88,8 @@ int go (int argc, char* argv[])
         char cwd[200];
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
-        if(strcmp(last+1,"Home")<0){
-            puts("Back");
+        if(strcmp(last+1,"Home")!=0){
+            puts("Back\n");
         }
         if ((dp = opendir(argv[1])) == NULL) {
              perror("ERROR");
@@ -110,7 +110,7 @@ int go (int argc, char* argv[])
         char cwd[200];
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
-        if(strcmp(last+1,"Home")<0){
+        if(strcmp(last+1,"Home")!=0){
         chdir("..");
         }else{
             puts("I can't go back anymore!");
