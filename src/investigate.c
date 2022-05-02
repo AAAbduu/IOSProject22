@@ -25,11 +25,21 @@ int main (int argc, char* argv[])
         while ((dirp = readdir(dp)) != NULL)
             if(dirp -> d_type == DT_REG){ //ONLY FILES ARE PRINTeD, NO DIRECTORIES.
                 //printf("%hhu\n", dirp -> d_type);
+                if(strstr(dirp->d_name,"item-")){ //printing only items.
+                    char item[30];
+                    strcpy(item,dirp->d_name);
+                    char *last = strchr(item,'-');
+                    char itemname[15];
+                    int i = 1;
+                    while(last[i]!='.'){
+                        if(last[i]!='.'){
+                            itemname[i-1] = last[i];
+                            i++;
+                        }
+                    }
+                    printf("\n%s\n\n", itemname);
+               }    
                 
-                if(!strstr(dirp->d_name,"history") && !strstr(dirp->d_name,".")){ //dicarding hidden files "."
-                    printf("\n%s\n\n", dirp->d_name);
-                    
-                }
             }
 
         if (closedir(dp) == -1)
@@ -38,7 +48,12 @@ int main (int argc, char* argv[])
     }else if(argc==2){
 
 
-        int fd = open(argv[1], O_RDONLY); 
+       char item [30];
+
+        strcpy(item, "item-");
+        strcat(item,argv[1]);
+        strcat(item,".txt");
+        int fd = open(item, O_RDONLY);
 
         if(fd<0){
 
@@ -52,7 +67,7 @@ int main (int argc, char* argv[])
 
         while(lung=read(fd,buf,sizeof(buf))) //read as much as 4096 in file
         {
-             puts("\n\n");
+             puts("\n");
              write(0,buf,lung); //write on terminal
              puts("\n");
         }
