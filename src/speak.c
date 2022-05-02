@@ -31,14 +31,15 @@ int main (int argc, char* argv[])
                     char character[30];
                     strcpy(character,dirp->d_name);
                     char *last = strchr(character,'-');
-                    char charname[10];
+                    char charname[15];
                     int i = 1;
                     while(last[i]!='.'){
                         charname[i-1] = last[i];
                         i++;
                     }
-                    
+                   
                     printf("\n%s\n\n", charname);
+                    memset(charname, 0, sizeof charname); //resetting the array
                     
                 }
             }
