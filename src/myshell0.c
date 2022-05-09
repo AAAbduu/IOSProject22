@@ -8,12 +8,14 @@
 #include <signal.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <dirent.h>
 
 #define error(a) {perror(a); exit(1);};
 #define MAXLINE 200
 #define MAXARGS 20
+#define RWX_UGO (40000|S_IRWXU | S_IRGRP | S_IXGRP |S_IROTH|S_IXOTH)
 
 char BINPATH [456];
 
@@ -25,6 +27,31 @@ char MANPATH [456];
 
 /////////// reading commands:
 
+
+void initialize(){
+   getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
+   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT HISTPATH GLOBAL VARIABLE PATH
+   getcwd(MANPATH,sizeof(MANPATH)); //GETTING CONSTANT MANPATH GLOBAL VARIABLE PATH
+
+   strcat(HISTPATH, "/gameTree");
+   strcat(BINPATH,"/bin");
+   strcat(MANPATH,"/manpages");
+   chdir("gameTree/Home");
+   //unsigned long mode = strtoul("40755", NULL, 8);
+   chmod("MainSquare/Pub", 0);
+   chmod("MainSquare/Castle/Main Hall", 0);
+   chmod("MainSquare/Castle/Park", 0);
+}
+
+void red () {
+  printf("\033[1;31m");
+}
+void green() {
+  printf("\033[0;32m");
+}
+void reset () {
+  printf("\033[0m");
+}
 
 
 int read_args(int* argcp, char* args[], int max, int* eofp)
@@ -81,6 +108,7 @@ int go (int argc, char* argv[])
     if(argv[1] == NULL){
         printf("Where should i go?\n\n");
         DIR *dp;
+        struct stat file;
         struct dirent *dirp;
         char * path [100];
         getcwd(path,100);
@@ -94,11 +122,20 @@ int go (int argc, char* argv[])
         if ((dp = opendir(argv[1])) == NULL) {
              perror("ERROR");
         }
+        unsigned long mode = strtoul("40755", NULL, 8);
         while ((dirp = readdir(dp)) != NULL)
             if(dirp -> d_type == DT_DIR){ //ONLY directories ARE PRINTeD, NO files.
                // printf("%hhu\n", dirp -> d_type);
-                if(!strstr(dirp->d_name,".")){ //dicarding hidden directories "."
-                    printf("%s\n\n", dirp->d_name);
+                if(!strstr(dirp->d_name,".")){ 
+                    stat(dirp->d_name, &file);
+                    if(file.st_mode == mode){
+                       green();
+                     printf("%s    Open\n\n", dirp->d_name);
+                    }else{
+                       red();
+                       printf("%s    Closed\n\n", dirp->d_name);
+                    }
+                    reset();
                 }
             }
 
@@ -189,14 +226,9 @@ int execute(int argc, char *argv[])
 
 int main ()
 {
-   getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
-   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT HISTPATH GLOBAL VARIABLE PATH
-   getcwd(MANPATH,sizeof(MANPATH)); //GETTING CONSTANT MANPATH GLOBAL VARIABLE PATH
+   initialize();
 
-   strcat(HISTPATH, "/gameTree");
-   strcat(BINPATH,"/bin");
-   strcat(MANPATH,"/manpages");
-   chdir("gameTree/Home");
+
    char dir [MAXLINE]; 
    getcwd(dir, sizeof(dir));
    char *last = strrchr(dir, '/');
