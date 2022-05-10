@@ -37,10 +37,10 @@ void initialize(){
    strcat(BINPATH,"/bin");
    strcat(MANPATH,"/manpages");
    chdir("gameTree/Home");
-   unsigned long mode = strtoul("40755", NULL, 8);
-   chmod("MainSquare/Pub", mode);
-   chmod("MainSquare/Castle/MainHall", mode);
-   chmod("MainSquare/Castle/Park", mode);
+   //unsigned long mode = strtoul("40755", NULL, 8);
+   chmod("MainSquare/Pub", 0);
+   chmod("MainSquare/Castle/MainHall", 0);
+   chmod("MainSquare/Castle/Park", 0);
 }
 
 void red () {
