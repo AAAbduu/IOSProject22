@@ -37,10 +37,10 @@ void initialize(){
    strcat(BINPATH,"/bin");
    strcat(MANPATH,"/manpages");
    chdir("gameTree/Home");
-   //unsigned long mode = strtoul("40755", NULL, 8);
-   chmod("MainSquare/Pub", 0);
-   chmod("MainSquare/Castle/Main Hall", 0);
-   chmod("MainSquare/Castle/Park", 0);
+   unsigned long mode = strtoul("40755", NULL, 8);
+   chmod("MainSquare/Pub", mode);
+   chmod("MainSquare/Castle/MainHall", mode);
+   chmod("MainSquare/Castle/Park", mode);
 }
 
 void red () {
@@ -110,10 +110,10 @@ int go (int argc, char* argv[])
         DIR *dp;
         struct stat file;
         struct dirent *dirp;
-        char * path [100];
-        getcwd(path,100);
+        char * path [300];
+        getcwd(path,300);
         argv[1] = path;
-        char cwd[200];
+        char cwd[300];
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
         if(strcmp(last+1,"Home")!=0){
