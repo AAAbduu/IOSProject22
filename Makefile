@@ -16,6 +16,7 @@ INC_DIR = ./inc
 OBJ_DIR = ./obj
 SRC_DIR = ./src
 BIN_DIR = ./bin
+INVENTORY_DIR = ./gameTree/inventory
 PROGS = $(patsubst %.c,%,$(OBJ_DIR))
 CFLAGS = -Wall
 
@@ -29,6 +30,7 @@ $(SRCFS) : $(BIN_DIR)/%: $(OBJ_DIR)/%.o
 	
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
+	mkdir -p $(INVENTORY_DIR)
 	gcc -c -MD $(CFLAGS) $< -o $@
 
 
@@ -37,6 +39,7 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 .PHONY: clean
 clean:
 	rm -f "./gameTree/history.txt"
+	rm -d -r "./gameTree/inventory"
 	rm -f scaperoom
 	rm -r -f $(OBJ_DIR)
 	rm -r -f $(BIN_DIR)

@@ -27,7 +27,7 @@ int copyfile1(char* infilename, char* outfileDir) {
 
             while(fgets(buf,sizeof(buf), infile)) //read as much as 4096 in file
             {
-                fputs(buf,outfile);
+                fputs(buf,outfile); //COPY CONTENT OF FILE 
             }
             fclose(infile);
             fclose(outfile);
