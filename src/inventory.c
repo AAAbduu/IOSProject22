@@ -20,11 +20,12 @@ int main (int argc, char* argv[])
     dp = opendir(path);
     printf("This is what you are carrying: \n");
     while ((dirp = readdir(dp)) != NULL)
-           if(strstr(dirp->d_name,"item-")){ //printing only items.
+           if(strstr(dirp->d_name,"item-") || strstr(dirp->d_name,"char-")){ //printing only items.
                     char item[30];
                     strcpy(item,dirp->d_name);
                     char *last = strchr(item,'-');
                     char itemname[15];
+                    memset(itemname, 0, sizeof itemname); //resetting the array
                     int i = 1;
                     while(last[i]!='.'){
                         if(last[i]!='.'){
@@ -33,15 +34,19 @@ int main (int argc, char* argv[])
                         }
                     }
                     printf("\n%s\n\n", itemname);
+                    memset(itemname, 0, sizeof itemname); //resetting the array
                }
 
     closedir(dp);
     }else if(argc==2){
-        if(strcmp(argv[1], "possiblekid") || strcmp(argv[1], "kid")){
-            printf("I should not torture the kid...");
+        if(strstr(argv[1], "possiblekid") !=NULL|| strstr(argv[1], "kid")!=NULL){
+            printf("I should not torture the kid...\n");
             return -1;
         }
          char item [30];
+
+        memset(item, 0, sizeof item); //resetting the array
+
 
         strcpy(item, "item-");
         strcat(item,argv[1]);
@@ -66,5 +71,6 @@ int main (int argc, char* argv[])
         }
 
         close(fd);
+        memset(item, 0, sizeof item); //resetting the array
     }
 }
