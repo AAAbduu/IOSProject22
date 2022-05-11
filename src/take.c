@@ -9,7 +9,7 @@
 #include <libgen.h>
 
 
-int copyfile1(char* infilename, char* outfileDir) {
+int copyfile(char* infilename, char* outfileDir) {
     FILE* infile; //File handles for source and destination.
     FILE* outfile;
     char outfilename[PATH_MAX];
@@ -40,6 +40,26 @@ int main (int argc, char* argv[])
     char* p = strstr(path, "IOSProject22");
     p[0] = 0;
     strcat(path, "IOSProject22/gameTree/inventory");
+
+    if(strcmp(argv[1], "possiblekid") || strcmp(argv[1], "kid")){
+
+        char character [30];
+
+        strcat(character, "char-");
+        strcat(character, argv[1]);
+        strcat(character, ".txt");
+        int obj = open(character, O_RDONLY);
+        if(obj < 0){
+            printf("There isn't such object\n");
+        }else{
+            char characterPath[PATH_MAX];
+            getcwd(characterPath, sizeof(characterPath));
+            strcat(characterPath, "/");
+            strcat(characterPath, character);
+            copyfile(characterPath, path);    
+           }
+
+    }else{
         char object [30];
 
         strcat(object, "item-");
@@ -53,8 +73,9 @@ int main (int argc, char* argv[])
             getcwd(objectPath, sizeof(objectPath));
             strcat(objectPath, "/");
             strcat(objectPath, object);
-            copyfile1(objectPath, path);    
+            copyfile(objectPath, path);    
            }
+    }
 }
 
 
