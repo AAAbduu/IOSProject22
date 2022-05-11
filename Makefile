@@ -12,7 +12,6 @@ SRCFS += $(BIN_DIR)/myman
 SRCFS += $(BIN_DIR)/speak
 SRCFS += $(BIN_DIR)/inventory
 SRCFS += $(BIN_DIR)/take
-INC_DIR = ./inc
 OBJ_DIR = ./obj
 SRC_DIR = ./src
 BIN_DIR = ./bin
