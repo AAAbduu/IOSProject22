@@ -37,6 +37,10 @@ int main (int argc, char* argv[])
 
     closedir(dp);
     }else if(argc==2){
+        if(strcmp(argv[1], "possiblekid") || strcmp(argv[1], "kid")){
+            printf("I should not torture the kid...");
+            return -1;
+        }
          char item [30];
 
         strcpy(item, "item-");
