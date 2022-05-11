@@ -5,8 +5,33 @@
 #include<limits.h>
 #include<string.h>
 #include<unistd.h>
+#include<dirent.h>
+#include <libgen.h>
 
 
+int copyfile1(char* infilename, char* outfileDir) {
+    FILE* infile; //File handles for source and destination.
+    FILE* outfile;
+    char outfilename[PATH_MAX];
+
+    infile = fopen(infilename, "r"); // Open the input and output files.
+    if (infile == NULL) {
+      return 1;
+    }
+    sprintf(outfilename, "%s/%s", outfileDir, basename(infilename));
+
+    outfile = fopen(outfilename, "w");
+
+    char buf[4096];
+             int lung;
+
+            while(fgets(buf,sizeof(buf), infile)) //read as much as 4096 in file
+            {
+                fputs(buf,outfile);
+            }
+            fclose(infile);
+            fclose(outfile);
+}
 
 int main (int argc, char* argv[])
 {
@@ -15,25 +40,22 @@ int main (int argc, char* argv[])
     char* p = strstr(path, "IOSProject22");
     p[0] = 0;
     strcat(path, "IOSProject22/gameTree/inventory");
-    int fd = open(path, O_WRONLY | O_APPEND);
+        char object [30];
 
-    if (fd < 0){
-        printf("Can't open inventory\n");
-    }else{
-        int obj = open(argv[1], O_RDONLY);
+        strcat(object, "item-");
+        strcat(object, argv[1]);
+        strcat(object, ".txt");
+        int obj = open(object, O_RDONLY);
         if(obj < 0){
             printf("There isn't such object\n");
         }else{
-           char newname[] = ".";
-           strcat(newname,argv[1]);
-           if(rename(argv[1],newname) == 0){
-               write(fd, argv[1], strlen(argv[1]));
-               write(fd, "\n", 1);
-               printf("Object added successfully\n");
-               close(obj);
+            char objectPath[PATH_MAX];
+            getcwd(objectPath, sizeof(objectPath));
+            strcat(objectPath, "/");
+            strcat(objectPath, object);
+            copyfile1(objectPath, path);    
            }
-        }
-        close(fd);
-    }
-
 }
+
+
+

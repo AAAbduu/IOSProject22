@@ -5,6 +5,7 @@
 #include<stdio.h>
 #include<limits.h>
 #include<string.h>
+#include<dirent.h>
 
 int main (int argc, char* argv[])
 {
@@ -13,18 +14,25 @@ int main (int argc, char* argv[])
     char* p = strstr(path, "IOSProject22");
     p[0] = 0;
     strcat(path, "IOSProject22/gameTree/inventory");
-    int fd = open(path, O_RDONLY);
-    if (fd < 0){
-        printf("Can't open inventory\n");
-    }else{
-        char c;
-        printf("Inventory:\n");
-        while (read(fd, &c, 1) > 0)
-        {
-            printf("%c",c);
-        }
+    DIR *dp;
+    struct dirent *dirp;
+    dp = opendir(path);
+    printf("This is what you are carrying: \n");
+    while ((dirp = readdir(dp)) != NULL)
+           if(strstr(dirp->d_name,"item-")){ //printing only items.
+                    char item[30];
+                    strcpy(item,dirp->d_name);
+                    char *last = strchr(item,'-');
+                    char itemname[15];
+                    int i = 1;
+                    while(last[i]!='.'){
+                        if(last[i]!='.'){
+                            itemname[i-1] = last[i];
+                            i++;
+                        }
+                    }
+                    printf("\n%s\n\n", itemname);
+               }
 
-        close(fd);
-    }
-
+    closedir(dp);
 }
