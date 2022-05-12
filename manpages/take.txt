@@ -1,0 +1,16 @@
+NAME: 
+        take     take an object from the inventory
+SYNOPSIS:
+
+        take [argument] 
+
+DESCRIPTION: 
+       coppy the content of a file from the inventory and put it in another place.
+
+SYSTEM CALLS:
+        open
+
+RETURN VALUE:
+        'path/item-argument'
+
+

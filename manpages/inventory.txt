@@ -1,0 +1,28 @@
+NAME: 
+        inventory     list existing item
+SYNOPSIS:
+        inventory
+        inventory [argument] 
+
+DESCRIPTION: 
+        The argument chosen is an object unknown at the begining,
+        the system links this object to item (item-object.txt) and searches for the existence
+        of this object in the inventory. if it exists it displays it, otherwise we will have 
+        ' there is no such object in your inventory'.
+
+SYSTEM CALLS:
+        open, read, write, close,readdir
+
+C LIBRARY FUNCTIONS:
+        opendir, closedir
+
+RETURN VALUE:
+        'This is what you are carrying:   '
+        or
+        'There is no such object in your inventory'
+        
+EXCEPTION:
+        inventory kid
+        returns-> I should not torture the kid....
+
+
