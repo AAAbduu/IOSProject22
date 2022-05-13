@@ -42,7 +42,9 @@ int main (int argc, char* argv[])
         }
 
         
-    }else if(argc>1){
+    }
+    
+    else if(argc>1){
 
         char path[300];
 

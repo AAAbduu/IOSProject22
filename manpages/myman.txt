@@ -1,0 +1,19 @@
+NAME: 
+        myman     display the man page of the different commands
+SYNOPSIS:
+        myman
+        myman [command] 
+
+DESCRIPTION: 
+        myman to display the system's manual pager.Each page argument given to myman is normally the name of a command.
+        The manuel page associated with each of these commands is then found and displayed.
+        if you want the list of commands with a manual, you have to type in the terminal myman.
+        and if not, you must enter myman followed by thecommand you want to have it's manuel.
+
+SYSTEM CALLS:
+        open, read, write, close
+
+RETURN VALUE:
+        'Available commands'
+        or
+        'command: 'manuelpage''
