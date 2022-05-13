@@ -25,6 +25,8 @@ char HISTPATH [456];
 
 char MANPATH [456];
 
+char INVENTORY_PATH[456];
+
 /////////// reading commands:
 
 
@@ -32,7 +34,8 @@ void initialize(){
    getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
    getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT HISTPATH GLOBAL VARIABLE PATH
    getcwd(MANPATH,sizeof(MANPATH)); //GETTING CONSTANT MANPATH GLOBAL VARIABLE PATH
-
+   getcwd(INVENTORY_PATH, sizeof(INVENTORY_PATH)); //GETTING CONSTANT INVENTORY PATH
+   strcat(INVENTORY_PATH, "/gameTree/inventory");
    strcat(HISTPATH, "/gameTree");
    strcat(BINPATH,"/bin");
    strcat(MANPATH,"/manpages");
@@ -41,6 +44,7 @@ void initialize(){
    chmod("MainSquare/Pub", 0);
    chmod("MainSquare/Castle/MainHall", 0);
    chmod("MainSquare/Castle/Park", 0);
+
 }
 
 void red () {
@@ -104,16 +108,17 @@ int read_args(int* argcp, char* args[], int max, int* eofp)
 
 int go (int argc, char* argv[])
 {
+   char * path [456];
+   getcwd(path,sizeof path);
 
     if(argv[1] == NULL){
         printf("Where should i go?\n\n");
         DIR *dp;
         struct stat file;
         struct dirent *dirp;
-        char * path [300];
-        getcwd(path,300);
+        
         argv[1] = path;
-        char cwd[300];
+        char cwd[456];
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
         if(strcmp(last+1,"Home")!=0){
@@ -144,19 +149,52 @@ int go (int argc, char* argv[])
 
 
     }else if(strcmp(argv[1],"back")==0){
-        char cwd[200];
+        char cwd[456];
         getcwd(cwd, sizeof(cwd));
         char *last = strrchr(cwd, '/');
         if(strcmp(last+1,"Home")!=0){
-        chdir("..");
+         chdir("..");
+         char preNotes [456];
+         strcpy(preNotes, path);
+         strcat(preNotes, "/item-notes.txt");
+
+         char cwd [456];
+         getcwd(cwd, sizeof cwd);
+
+         strcat(cwd, "/item-notes.txt");
+         int linked = link(preNotes,cwd);
+
+         //printf("linked? : %d\n", linked);
+
+         int unlinked = unlink(preNotes);
+
+         //printf("unlinked? : %d\n", unlinked);
         }else{
             puts("I can't go back anymore!");
         }
         
         
-    }else if(chdir(argv[1])<0){
-    printf("I can't go there!\n ");
-    }  
+    }else if(chdir(argv[1])>=0){
+      char preNotes [456];
+      strcpy(preNotes, path);
+      strcat(preNotes, "/item-notes.txt");
+
+      char cwd [456];
+      getcwd(cwd, sizeof cwd);
+
+      strcat(cwd, "/item-notes.txt");
+      int linked = link(preNotes,cwd);
+
+      //printf("linked? : %d\n", linked);
+
+      int unlinked = unlink(preNotes);
+
+      //printf("unlinked? : %d\n", unlinked);
+
+    
+    }else{
+      printf("I can't go there!\n ");
+    }
 }  
 
 

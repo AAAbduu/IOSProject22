@@ -9,12 +9,13 @@
 
 int main (int argc, char* argv[])
 {
-    if(argc ==1){
     char path[PATH_MAX];
     getcwd(path, sizeof(path));
     char* p = strstr(path, "IOSProject22");
     p[0] = 0;
     strcat(path, "IOSProject22/gameTree/inventory");
+    if(argc ==1){
+    
     DIR *dp;
     struct dirent *dirp;
     dp = opendir(path);
@@ -51,7 +52,9 @@ int main (int argc, char* argv[])
         strcpy(item, "item-");
         strcat(item,argv[1]);
         strcat(item,".txt");
-        int fd = open(item, O_RDONLY);
+        strcat(path, "/");
+        strcat(path, item);
+        int fd = open(path, O_RDONLY);
 
         if(fd<0){
 

@@ -29,6 +29,7 @@ $(SRCFS) : $(BIN_DIR)/%: $(OBJ_DIR)/%.o
 	
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
+	cp -a "./assets/rawScenario/gameTree" "./"
 	mkdir -p $(INVENTORY_DIR)
 	gcc -c -MD $(CFLAGS) $< -o $@
 
@@ -38,7 +39,12 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 .PHONY: clean
 clean:
 	rm -f "./gameTree/history.txt"
-	rm -d -r "./gameTree/inventory"
+	rm -d -r -f "./gameTree/inventory"
 	rm -f scaperoom
+	chmod 0755 "./gameTree/Home/MainSquare/Castle/Park" 
+	chmod 0755 "./gameTree/Home/MainSquare/Castle/MainHall" 
+	chmod 0755 "./gameTree/Home/MainSquare/Castle" 
+	chmod -f 0755 "./gameTree/Home/MainSquare/Pub"
+	rm -d -r "./gameTree"
 	rm -r -f $(OBJ_DIR)
 	rm -r -f $(BIN_DIR)

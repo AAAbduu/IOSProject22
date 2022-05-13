@@ -1,13 +1,16 @@
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<stdio.h>
+#include <fcntl.h>
 #include<limits.h>
-#include<string.h>
-#include<unistd.h>
-#include<dirent.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <signal.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <dirent.h>
 #include <libgen.h>
-
 
 int copyfile(char* infilename, char* outfileDir) {
     FILE* infile; //File handles for source and destination.
@@ -33,6 +36,7 @@ int copyfile(char* infilename, char* outfileDir) {
             fclose(outfile);
 }
 
+
 int main (int argc, char* argv[])
 {
     char path[PATH_MAX];
@@ -41,8 +45,10 @@ int main (int argc, char* argv[])
     p[0] = 0;
     strcat(path, "IOSProject22/gameTree/inventory");
 
+    //printf("%s", path);
 
-    if(strstr(argv[1], "possiblekid") !=NULL || strstr(argv[1], "kid")!=NULL){
+
+if(strstr(argv[1], "possiblekid") !=NULL || strstr(argv[1], "kid")!=NULL){
 
         char character [30];
         memset(character, 0, sizeof character); //resetting the array
@@ -61,10 +67,11 @@ int main (int argc, char* argv[])
         }else{
             copyfile(characterPath, path);    
             memset(character, 0, sizeof character); //resetting the array
+            unlink(characterPath);
 
            }
 
-    }else{
+    }else if(strcmp (argv[1], "notes")!=0){
         char object [30];
 
         memset(object, 0, sizeof object); //resetting the array
@@ -76,19 +83,24 @@ int main (int argc, char* argv[])
         getcwd(objectPath, sizeof(objectPath));
         strcat(objectPath, "/");
         strcat(objectPath, object);
-        printf("%s", objectPath);
+        //printf("%s", objectPath);
         int obj = open(objectPath, O_RDONLY);
-        printf("%d", obj);
-       // if(obj < 0){
-         //   printf("There isn't such object\n");
-        //}else{
+        //printf("%d", obj);
+        if(obj < 0){
+            printf("There isn't such object\n");
+        }else{
             
             copyfile(objectPath, path);    
 
             memset(object, 0, sizeof object); //resetting the array
 
+            unlink(objectPath);
 
-          // }
+
+    }
+
+    }else if(strcmp (argv[1], "notes")==0){
+        printf("I better keep those in my hand... i need to look quickly\n");
     }
 }
 
