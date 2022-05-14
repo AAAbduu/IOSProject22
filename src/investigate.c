@@ -7,6 +7,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <limits.h>
+#include <sys/stat.h>
 
 
 int main (int argc, char* argv[])
@@ -14,8 +16,8 @@ int main (int argc, char* argv[])
     if (argc <=1) {
         DIR *dp;
         struct dirent *dirp;
-        char path [100];
-        getcwd(path,100);
+        char path [PATH_MAX];
+        getcwd(path,PATH_MAX);
     
         argv[1] = path;
         if ((dp = opendir(argv[1])) == NULL) {
@@ -30,6 +32,7 @@ int main (int argc, char* argv[])
                     strcpy(item,dirp->d_name);
                     char *last = strchr(item,'-');
                     char itemname[15];
+                    memset(itemname, 0, sizeof itemname); //resetting the array
                     int i = 1;
                     while(last[i]!='.'){
                         if(last[i]!='.'){
@@ -38,6 +41,7 @@ int main (int argc, char* argv[])
                         }
                     }
                     printf("\n%s\n\n", itemname);
+                    memset(itemname, 0, sizeof itemname); //resetting the array
                }    
                 
             }
@@ -70,6 +74,12 @@ int main (int argc, char* argv[])
              puts("\n");
              write(0,buf,lung); //write on terminal
              puts("\n");
+        }
+
+        if(strcmp(argv[1],"brokenbeerglass") == 0){
+            unsigned long mode = strtoul("40755", NULL, 8);
+            chmod("../../Pub",mode);
+            printf("May be i should leave it for today and go get a drink....\n\n");
         }
 
         close(fd);

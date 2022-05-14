@@ -1,68 +1,110 @@
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<stdio.h>
-#include <sys/dir.h>
-#include <sys/param.h>
+#include <fcntl.h>
+#include<limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <signal.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <dirent.h>
-#include<errno.h>
-#include<unistd.h>
-#include<stdlib.h>
-#include<fcntl.h>
+#include <libgen.h>
 
 
 extern int errno;
 
 int main(int argc,const char *argv[]){
 
-    if(argc!=3 && argc !=4){
-        printf("Enter a valid Command with Proper Arguments!\n");
-        exit(EXIT_FAILURE);
-    }
+    char path[PATH_MAX];
+    getcwd(path, sizeof(path));
 
-    else{
+    char currpath[PATH_MAX];
+    getcwd(currpath, sizeof(currpath));
 
-        int f1=open(argv[1],O_RDONLY);
-   
+    char *last = strrchr(currpath, '/');
 
-        int f2= open(argv[2], O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
-        long int n1;
-        char buffer[4096];
-        // Does not exist
+    char *whereAmI = last+1;
 
-        if(f1==-1){
-           
-            printf("Error Number % d\n", errno);
-            close(f1);
-           
-            printf("Source file does not exist\n");
-            exit(1);
-        }
-     
+    char* p = strstr(path, "IOSProject22");
+    p[0] = 0;
+    strcat(path, "IOSProject22/gameTree/inventory");
+
+    char objectTry [456];
+
+    strcpy(objectTry, path);
+
+    strcat(objectTry, "/");
+
+
        
         if(argc==3){
-            char buf;
-            int src,dest,n;
-            int nread;
-            src=open(argv[1],O_RDONLY);  // Open src File
-            dest=open(argv[2],O_WRONLY | O_CREAT , sizeof(src));// Open dest File
-            if(f2==-1){
-                printf("Error Number % d\n", errno);
-                close(f2);
-                printf("Destination file does not exist\n");
-                exit(1);
+            int object,toUse;
+            
+            if(strcmp(whereAmI, "Castle")==0 && strcmp(argv[1], "royalSeal")==0 && strcmp(argv[2], "royalGuard")==0){
+                strcat(objectTry, "item-");
+                strcat(objectTry, argv[1]);
+                strcat(objectTry, ".txt");
+                object = open(objectTry,O_RDONLY );
+                if(object<0){
+                    printf("I don't have that object");
+                    return -1;
+                }
+                char openPath [456];
+                getcwd(openPath, sizeof(openPath));
+                strcat(openPath,"/MainHall");
+                unsigned long mode = strtoul("40755", NULL, 8);
+                chmod(openPath,mode);
+                unlink(objectTry);
+                printf("RoyalGuard: Oh, you are the most legendary king guard, we are sorry. Go in, talk with you Grace.\n\n");
+                return 0;
             }
-            while((n=read(src,&buf,1)) != 0){
-                write( dest, &buf, 1 );
-                // Overwritng from the 1st bit ...
+            else if(strcmp(whereAmI, "Castle")==0 && strcmp(argv[1], "parkKey")==0 && strcmp(argv[2], "Park")==0){
+                strcat(objectTry, "item-");
+                strcat(objectTry, argv[1]);
+                strcat(objectTry, ".txt");
+                object = open(objectTry,O_RDONLY );
+                if(object<0){
+                    printf("I don't have that object");
+                    return -1;
+                }
+                char openPath [456];
+                getcwd(openPath, sizeof(openPath));
+                strcat(openPath,"/Park");
+                unsigned long mode = strtoul("40755", NULL, 8);
+                chmod(openPath,mode);
+                unlink(objectTry);
+                printf("Park opened...");
+                return 0;
             }
-            unlink(argv[1]); // Deleting the src file as contents have been moved
-            close(src);
-            close(dest);
-            printf("File Moved Successfully\n");
-            close(f1);
-            close(f2);
+            else if(strcmp(whereAmI, "MainSquare")==0 && strcmp(argv[1], "possibleKid")==0 && strcmp(argv[2], "mother")==0){
+                strcat(objectTry, "char-");
+                strcat(objectTry, argv[1]);
+                strcat(objectTry, ".txt");
+                object = open(objectTry,O_RDONLY );
+                if(object<0){
+                    printf("I don't know who is that kid");
+                    return -1;
+                }
+                printf("Mother: That is not my child, you idiot!.\n My child does not do any drugs.\nNOT LIKE YOU!\n\n");
+                unlink(objectTry);
+                return 0;
+            }
+            else if(strcmp(whereAmI, "MainSquare")==0 && strcmp(argv[1], "kid")==0 && strcmp(argv[2], "mother")==0){
+                strcat(objectTry, "char-");
+                strcat(objectTry, argv[1]);
+                strcat(objectTry, ".txt");
+                object = open(objectTry,O_RDONLY );
+                if(object<0){
+                    printf("I don't know who is that kid");
+                    return -1;
+                }
+                printf("GREAT WORK, YOU SOLVED THE CASE, YOU MAY EXPLORE THE WORLD BUT THERE IS NOT MUCH TO DO LEFT.\n\n");
+                unlink(objectTry);
+                return 0;
+            }
         }
-    }    
-    return 0;
-}
+        return 1;
+    }
+
