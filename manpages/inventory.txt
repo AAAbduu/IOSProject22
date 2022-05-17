@@ -2,7 +2,7 @@ NAME:
         inventory     list existing item
 SYNOPSIS:
         inventory
-        inventory [argument] 
+        inventory [item] 
 
 DESCRIPTION: 
         when we write inventory without any other arguments, it lists the existing objects in your inventory.

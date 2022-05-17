@@ -2,7 +2,7 @@ NAME:
         go     where i can go 
 SYNOPSIS:
         go
-        go [place] 
+        go [place] (a place is a directory within the current directory)
         go back
 
 DESCRIPTION: 
