@@ -8,12 +8,10 @@ DESCRIPTION:
         The history command is used to record the last movements entered, this movements must be composed (>=2) and in this case created,
         all what is entered is therefore saved in a file.
         When calling the history command, the file containing all the movements is displayed, 
-        if it is empty we have 'you have no recent movements yet', otherwise we will have 'So far these are your movements' followed by the list of movements.
+        we will have 'So far these are your movements' followed by the list of movements.
 
 SYSTEM CALLS:
         open, read, write, close
 
 RETURN VALUE:
-        'You have no recents movements yet'
-        or
         'So far these are your movements' followed by lists of the movements

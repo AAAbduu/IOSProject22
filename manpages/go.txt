@@ -1,0 +1,27 @@
+NAME: 
+        go     where i can go 
+SYNOPSIS:
+        go
+        go [place] 
+        go back
+
+DESCRIPTION: 
+        go : where I could go and displaying if the place is closed or open
+        go [place] : if you are allowed to enter a place, the path and the prompt change and you go
+        to that place.
+        Otherwise a message of interdiction will be displayed 
+
+SYSTEM CALLS:
+        read, write, link, unlink, readdir, stat, wait, fork
+
+C LIBRARY FUNCTIONS:
+        opendir, closedir, execvp
+
+RETURN VALUE:
+         prompt and path change
+        or
+        'I can't go there'
+        
+        
+
+

@@ -1,16 +1,21 @@
 NAME: 
-        take     take an object from the inventory
+        take     take an object and put it in the inventory
 SYNOPSIS:
 
         take [argument] 
 
 DESCRIPTION: 
-       coppy the content of a file from the inventory and put it in another place.
-
+       Take an item from his place and put it in the inventory, to verify that an object has been 
+       succesfully added to the inventory, we execute the command 'inventory' and then 
+       we can see the object added.
+       if you try to take an inexistant object you will have the return message 'there isn't...'
+       and you cannot take an object twice from the same place 
 SYSTEM CALLS:
         open
 
 RETURN VALUE:
-        'path/item-argument'
+        'there isn't such object'
+        or
+        object added to the inventory
 
 

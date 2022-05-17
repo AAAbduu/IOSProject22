@@ -5,10 +5,11 @@ SYNOPSIS:
         inventory [argument] 
 
 DESCRIPTION: 
-        The argument chosen is an object unknown at the begining,
-        the system links this object to item (item-object.txt) and searches for the existence
-        of this object in the inventory. if it exists it displays it, otherwise we will have 
-        ' there is no such object in your inventory'.
+        when we write inventory without any other arguments, it lists the existing objects in your inventory.
+        and when we write inventory followed by an object that does not exist in the inventory, 
+        we will be told that the object does not exist in your inventory. 
+        Finally if we choose to write inventory followed by an existing object, 
+        it displays the content of the chosen file (description of the usefulness and objective... of this object)
 
 SYSTEM CALLS:
         open, read, write, close,readdir
@@ -20,6 +21,8 @@ RETURN VALUE:
         'This is what you are carrying:   '
         or
         'There is no such object in your inventory'
+        or
+        'description
         
 EXCEPTION:
         inventory kid
