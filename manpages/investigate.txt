@@ -1,0 +1,22 @@
+NAME: 
+        investigate     carry out research and study into an object
+
+SYNOPSIS:
+        investigate [item] 
+
+DESCRIPTION: 
+        Make investigations on objects which must be interesting for our problem and which must exist,
+        the use of this command sometimes leads to the removal of certain restrictions other times to 
+        simple reflections or doubts on some thing or someone
+        
+
+SYSTEM CALLS:
+        open, read, close, readdir
+
+C LIBRARY FUNCTIONS:
+        opendir, closedir
+
+RETURN VALUE:
+        'There is no such object to investigate...'
+        or
+        investigation will be made
