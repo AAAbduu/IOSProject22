@@ -11,14 +11,16 @@
 
 int main (int argc, char* argv[])
 {
+    char path[456];
+
+    getcwd(path,sizeof path);
+
+    char* p = strstr(path, "gameTree");
+    p[0] = 0;
+    strcat(path, "gameTree/history.txt");
+
     if(argv[1]==NULL){
         
-        char path[300];
-
-        getcwd(path,300);
-
-        strcat(path,"/history.txt");
-
         int fd = open(path, O_RDONLY | O_CREAT, 0644); 
 
 
@@ -45,12 +47,6 @@ int main (int argc, char* argv[])
     }
     
     else if(argc>1){
-
-        char path[300];
-
-        getcwd(path,300);
-
-        strcat(path,"/history.txt");
 
         int fd = open(path,O_RDWR|O_APPEND|O_CREAT, 0644);
 

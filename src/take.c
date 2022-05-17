@@ -19,7 +19,7 @@ int copyfile(char* infilename, char* outfileDir) {
 
     infile = fopen(infilename, "r"); // Open the input and output files.
     if (infile == NULL) {
-      return 1;
+      return -1;
     }
     sprintf(outfilename, "%s/%s", outfileDir, basename(infilename));
 
@@ -64,10 +64,12 @@ if(strstr(argv[1], "possiblekid") !=NULL || strstr(argv[1], "kid")!=NULL){
         int chara = open(characterPath, O_RDONLY);
         if(chara < 0){
             printf("There isn't such object\n");
+            return -1;
         }else{
             copyfile(characterPath, path);    
             memset(character, 0, sizeof character); //resetting the array
             unlink(characterPath);
+            return 0;
 
            }
 
@@ -88,6 +90,7 @@ if(strstr(argv[1], "possiblekid") !=NULL || strstr(argv[1], "kid")!=NULL){
         //printf("%d", obj);
         if(obj < 0){
             printf("There isn't such object\n");
+            return -1;
         }else{
             
             copyfile(objectPath, path);    
@@ -95,12 +98,14 @@ if(strstr(argv[1], "possiblekid") !=NULL || strstr(argv[1], "kid")!=NULL){
             memset(object, 0, sizeof object); //resetting the array
 
             unlink(objectPath);
+            return 0;
 
 
     }
 
     }else if(strcmp (argv[1], "notes")==0){
         printf("I better keep those in my hand... i need to look quickly\n");
+        return 0;
     }
 }
 

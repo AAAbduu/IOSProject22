@@ -19,26 +19,13 @@
 
 char BINPATH [456];
 
-char PREV_PATH [456];
-
-char HISTPATH [456];
-
-char MANPATH [456];
-
-char INVENTORY_PATH[456];
 
 /////////// reading commands:
 
 
 void initialize(){
    getcwd(BINPATH,sizeof(BINPATH)); //GETTING CONSTANT BINPATH GLOBAL VARIABLE PATH
-   getcwd(HISTPATH,sizeof(HISTPATH)); //GETTING CONSTANT HISTPATH GLOBAL VARIABLE PATH
-   getcwd(MANPATH,sizeof(MANPATH)); //GETTING CONSTANT MANPATH GLOBAL VARIABLE PATH
-   getcwd(INVENTORY_PATH, sizeof(INVENTORY_PATH)); //GETTING CONSTANT INVENTORY PATH
-   strcat(INVENTORY_PATH, "/gameTree/inventory");
-   strcat(HISTPATH, "/gameTree");
    strcat(BINPATH,"/bin");
-   strcat(MANPATH,"/manpages");
    chdir("gameTree/Home");
    //unsigned long mode = strtoul("40755", NULL, 8);
    chmod("MainSquare/Pub", 0);
@@ -144,10 +131,11 @@ int go (int argc, char* argv[])
                 }
             }
 
-        if (closedir(dp) == -1)
+        if (closedir(dp) == -1){
             perror("closedir");
-
-
+            return -1;
+        }
+      return 0;
     }else if(strcmp(argv[1],"back")==0){
         char cwd[456];
         getcwd(cwd, sizeof(cwd));
@@ -169,8 +157,10 @@ int go (int argc, char* argv[])
          int unlinked = unlink(preNotes);
 
          //printf("unlinked? : %d\n", unlinked);
+         return 0;
         }else{
             puts("I can't go back anymore!");
+            return -1;
         }
         
         
@@ -191,9 +181,10 @@ int go (int argc, char* argv[])
 
       //printf("unlinked? : %d\n", unlinked);
 
-    
+    return 0;
     }else{
       printf("I can't go there!\n ");
+      return -1;
     }
 }  
 
@@ -203,14 +194,14 @@ int go (int argc, char* argv[])
 
 int executeChild(char *commandPath[],char *argv[]){
    pid_t pid, wpid;
-   int status;
+   int status,x;
    pid = fork();
         
       if(pid ==0){
-         execvp(commandPath,argv);
-         exit(0);
+          x = execvp(commandPath,argv);
       }
       while ((wpid = wait(&status)) > 0); // this way, the father waits for all the child processes
+      return x;
    
 
 }
@@ -218,48 +209,31 @@ int executeChild(char *commandPath[],char *argv[]){
 
 int execute(int argc, char *argv[])
 {
-    pid_t pid, wpid;
-    int status;
     char commandPath[456];
+
+    printf("%s : nARgs : %d\n", argv[0], argc);
+
 		// If the quit statement is found 
 		if(strcmp(*(argv), "quit") == 0)			
 			exit(0);
 		
 		if(strcmp(argv[0], "go") == 0) {
-			go(argc, argv);
+			int x = go(argc, argv);
+         printf("%d GO\n", x);
+         return x;
 
 		}		
-      if(strcmp(argv[0], "myman") == 0) {
-         getcwd(PREV_PATH,sizeof(PREV_PATH));
-         chdir(MANPATH);
-         strcpy(commandPath,BINPATH);
-         strcat(commandPath,"/myman");
-
-         int x = executeChild(commandPath, argv); 
-
-         chdir(PREV_PATH);
-         return x;
-      }
-
-      if(strcmp(argv[0], "history") == 0) {
-         getcwd(PREV_PATH,sizeof(PREV_PATH));
-         chdir(HISTPATH);
-         strcpy(commandPath,BINPATH);
-         strcat(commandPath,"/history");
-         int x = executeChild(commandPath, argv);
-         chdir(PREV_PATH);
-         return x;
-      }
 //GENERAL CASE IF NO SPECIAL CASE IS DETECTED
       strcpy(commandPath,BINPATH);
       strcat(commandPath,"/");
       strcat(commandPath,argv[0]);
+      printf("\nPath : %s\n", commandPath);
+      printf("Arg 0 : %s and Arg 1 : %s", argv[0], argv[1]);
       int x = executeChild(commandPath,argv);
+      printf("%d ANYOTHER COMMAND", x);
 		return x;
 
 }
-
-
 
 
 int main ()
@@ -273,27 +247,69 @@ int main ()
    char * Prompt = strcat(last+1, ">");
    int eof= 0;
    int argc;
+   
    char *args[MAXARGS];
+  
 
-    
-   while (1) {
-      getcwd(dir, sizeof(dir));
+    while (1) {
+   int i = 0, x = 0;
+   int lastCommand = 0;
+   int nArgs = 0;
+   int pipeFlag  =0;
+   int execution = 0;
+
+    getcwd(dir, sizeof(dir));
       char *last = strrchr(dir, '/');
       char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
-         if(strcmp(args[0], "history")!=0 && argc >1){
-            getcwd(PREV_PATH,sizeof(PREV_PATH));
-            chdir(HISTPATH);
-            char commandPath[456];
-            strcpy(commandPath,BINPATH);
-            strcat(commandPath,"/history");
-            int x = executeChild(commandPath, args);
-            chdir(PREV_PATH);
+
+         for(int t = 0; t< argc; t++){
+            if(strcmp(args[t], "|")==0){
+               pipeFlag = 1;
+            }
          }
-         execute(argc, args);
+      if(pipeFlag==1){
+         char *myArgs[argc+1];
+
+            while(execution ==0 && i<argc){
+               
+               if(strcmp(args[i], "|")!=0){
+                  myArgs[x] = args[i];
+                  nArgs++;
+                  if(i+1<argc){
+                     i++;
+                     x++;
+                  }else{
+                     lastCommand = 1;
+                     pipeFlag = 0;
+                  }
+
+               }
+
+               if(strcmp(args[i], "|")==0 || lastCommand ==1){ // execute piped commands.
+               printf("%s : nARgs : %d\n", myArgs[0], nArgs);
+               int e = execute(nArgs, myArgs);
+               printf("Execution return value: %d\n", e);
+               i++;
+               x=0;
+               nArgs = 0;
+               }
+               
+            }
       }
- 
+         else{
+            if(strcmp(args[0], "history")!=0 && argc >1){
+                     char commandPath[456];
+                     strcpy(commandPath,BINPATH);
+                     strcat(commandPath,"/history");
+                     int f = executeChild(commandPath, args);
+                  }
+               int e = execute(argc, args);
+
+               printf("Executing individual commands: %d\n", e);
+         }
+      }
       if (eof) exit(0);
-   }
+  }
 }

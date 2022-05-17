@@ -39,10 +39,11 @@ int main (int argc, char* argv[])
                }
 
     closedir(dp);
+    return 0;
     }else if(argc==2){
         if(strstr(argv[1], "possiblekid") !=NULL|| strstr(argv[1], "kid")!=NULL){
             printf("I should not torture the kid...\n");
-            return -1;
+            return 0;
         }
          char item [30];
 
@@ -75,5 +76,6 @@ int main (int argc, char* argv[])
 
         close(fd);
         memset(item, 0, sizeof item); //resetting the array
+        return 0;
     }
 }

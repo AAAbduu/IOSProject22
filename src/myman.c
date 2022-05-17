@@ -32,6 +32,12 @@ void readManPage(char*path){
 }
 
 int main(int argc,char *argv[]){
+    char path [456];
+    getcwd(path,sizeof path);
+
+    char* p = strstr(path, "IOSProject22");
+    p[0] = 0;
+    strcat(path, "IOSProject22/manpages");
 
     if(argc ==1){
 
@@ -39,31 +45,34 @@ int main(int argc,char *argv[]){
         printf("history\ninvestigate\ngo\nuse\nkill\n\n");
 
     }else if(argc==2){
-        char path [456];
-        if(strcmp(argv[1], "history")==0){
 
-            getcwd(path, sizeof(path));
+        if(strcmp(argv[1], "history")==0){
             strcat(path,"/history.txt");
             readManPage(path);
 
         }
 
        if(strcmp(argv[1], "investigate")==0){
-            getcwd(path, sizeof(path));
             strcat(path,"/investigate.txt");
             readManPage(path);
         }
 
         if(strcmp(argv[1], "go")==0){
-            getcwd(path, sizeof(path));
             strcat(path,"/go.txt");
             readManPage(path);
             
         }
 
         if(strcmp(argv[1], "use")==0){
-            getcwd(path, sizeof(path));
             strcat(path,"/use.txt");
+            readManPage(path);
+        }
+        if(strcmp(argv[1], "inventory")==0){
+            strcat(path,"/inventory.txt");
+            readManPage(path);
+        }
+        if(strcmp(argv[1], "take")==0){
+            strcat(path,"/take.txt.txt");
             readManPage(path);
         }
 

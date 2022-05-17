@@ -22,6 +22,7 @@ int main (int argc, char* argv[])
         argv[1] = path;
         if ((dp = opendir(argv[1])) == NULL) {
              perror("ERROR");
+             return -1;
         }
 
         while ((dirp = readdir(dp)) != NULL)
@@ -46,8 +47,12 @@ int main (int argc, char* argv[])
                 
             }
 
-        if (closedir(dp) == -1)
+        if (closedir(dp) == -1){
             perror("closedir");
+            return -1;
+        }
+
+        return 0;
 
     }else if(argc==2){
 
@@ -62,7 +67,7 @@ int main (int argc, char* argv[])
         if(fd<0){
 
             puts("There is no such object to investigate...");
-            exit(0);
+            return -1;
 
         }
         
@@ -80,9 +85,11 @@ int main (int argc, char* argv[])
             unsigned long mode = strtoul("40755", NULL, 8);
             chmod("../../Pub",mode);
             printf("May be i should leave it for today and go get a drink....\n\n");
+            
         }
 
         close(fd);
+        return 0;
     }
 
 }
