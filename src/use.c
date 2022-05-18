@@ -75,7 +75,7 @@ int main(int argc,const char *argv[]){
                 unsigned long mode = strtoul("40755", NULL, 8);
                 chmod(openPath,mode);
                 unlink(objectTry);
-                printf("Park opened...");
+                printf("Park opened...\n");
                 return 0;
             }
             else if(strcmp(whereAmI, "MainSquare")==0 && strcmp(argv[1], "possibleKid")==0 && strcmp(argv[2], "mother")==0){
