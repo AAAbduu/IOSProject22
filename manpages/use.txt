@@ -1,16 +1,13 @@
 NAME: 
-        Use     use an item from the inventory 
+        Use  -  use an item from the inventory 
 SYNOPSIS:
-        use [Arg]
-        Arg: A one time use object, where to use the object.
-
+        use [object]
 
 DESCRIPTION: 
-        Use of an existing object in the inventory on a place or a character, 
-        if the object does not exist in the inventory and we use it, we will have
-        a message indicating it, otherwise the object is used and removed from inventory.
-        Example: [use royalSeal royalGuard] which means that we use the object(royalSeal)
-        to convince royalGuard to meet the king and therefore we use an object on people
+        Use an existing object in the inventory, in a place or a character. 
+        If the object does not exist in the inventory a message indicating it will be displayed, 
+        otherwise the object is used and removed from inventory.
+        
 SYSTEM CALLS:
         open, unlink
 
