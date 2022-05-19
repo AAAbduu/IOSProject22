@@ -72,7 +72,7 @@ int main(int argc,char *argv[]){
             readManPage(path);
         }
         if(strcmp(argv[1], "take")==0){
-            strcat(path,"/take.txt.txt");
+            strcat(path,"/take.txt");
             readManPage(path);
         }
 
