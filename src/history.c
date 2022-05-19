@@ -55,8 +55,8 @@ int main (int argc, char* argv[])
 
             char *calculate;
             calculate = (char*)malloc(sizeof(argv) * sizeof(char*));
-            
-            for(int i = 0; i<argc;i++){
+            int i;
+            for( i= 0; i<argc;i++){
                 strcat(calculate, argv[i]);
                 //printf("%s, %d",calculate,i);
                 strcat(calculate, " ");

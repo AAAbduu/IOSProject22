@@ -263,8 +263,8 @@ int main ()
       char * Prompt = strcat(last+1, ">");
       write(0,Prompt, strlen(Prompt));
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0) {
-
-         for(int t = 0; t< argc; t++){
+         int t;
+         for(t = 0; t< argc; t++){
             if(strcmp(args[t], "|")==0){
                pipeFlag = 1;
             }
