@@ -1,15 +1,13 @@
 NAME: 
-        go     where i can go 
+        go  -  enter places
 SYNOPSIS:
         go
         go [place] (a place is a directory within the current directory)
         go back
 
 DESCRIPTION: 
-        go : where I could go and displaying if the place is closed or open
-        go [place] : if you are allowed to enter a place, the path and the prompt change and you go
-        to that place.
-        Otherwise a message of interdiction will be displayed 
+        go : show reachable places and display whether the place is closed or open
+        go [place] : enter the directory place, the path and the prompt change, otherwise a message of interdiction will be displayed 
 
 SYSTEM CALLS:
         read, write, link, unlink, readdir, stat, wait, fork
