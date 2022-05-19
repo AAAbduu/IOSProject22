@@ -42,7 +42,7 @@ int main(int argc,char *argv[]){
     if(argc ==1){
 
         printf("Use: myman 'command'\nAvailable commands:\n\n");
-        printf("history\ninvestigate\ngo\nuse\nkill\n\n");
+        printf("history\ninvestigate\ngo\nuse\nspeak\ninventory\take\n\n");
 
     }else if(argc==2){
 
@@ -57,8 +57,21 @@ int main(int argc,char *argv[]){
             readManPage(path);
         }
 
+     
+
         if(strcmp(argv[1], "go")==0){
             strcat(path,"/go.txt");
+            readManPage(path);
+            
+        }
+
+        if(strcmp(argv[1], "speak")==0){
+            strcat(path,"/speak.txt");
+            readManPage(path);
+            
+        }
+        if(strcmp(argv[1], "myman")==0){
+            strcat(path,"/myman.txt");
             readManPage(path);
             
         }
