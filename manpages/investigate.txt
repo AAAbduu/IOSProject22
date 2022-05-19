@@ -5,9 +5,9 @@ SYNOPSIS:
         investigate [item] 
 
 DESCRIPTION: 
-        Make investigations on objects which must be interesting for our problem and which must exist,
+        Make investigations on objects which may be interesting for the case and which must exist,
         the use of this command sometimes leads to the removal of certain restrictions other times to 
-        simple reflections or doubts on some thing or someone
+        simple reflections or doubts on something or someone
         
 
 SYSTEM CALLS:
