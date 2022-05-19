@@ -1,5 +1,5 @@
 NAME: 
-        investigate     carry out research and study into an object
+        investigate  -  carry out research and study into an object
 
 SYNOPSIS:
         investigate [item] 
