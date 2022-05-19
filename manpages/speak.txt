@@ -1,15 +1,12 @@
 NAME: 
-        speak       talk to a character
+        speak  -  talk to a character
 
 SYNOPSIS:
         speak
         speak [character]
 
 DESCRIPTION: 
-        When we write speak without any argument, it shows us the characters with whom we 
-        can chat in a given place.
-        But when we write speak followed by a character it shows us the words exchanged 
-        with this character.
+        Speak shows the characters pissible to chat with in a given place, or the words exchanged with a character if followed by his name.
 
 SYSTEM CALLS:
         open, read, write, close, readdir, lseek
