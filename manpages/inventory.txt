@@ -1,18 +1,16 @@
 NAME: 
-        inventory     list existing item
+        inventory  -  lists existing item
 SYNOPSIS:
         inventory
         inventory [item] 
 
 DESCRIPTION: 
-        when we write inventory without any other arguments, it lists the existing objects in your inventory.
-        and when we write inventory followed by an object that does not exist in the inventory, 
-        we will be told that the object does not exist in your inventory. 
-        Finally if we choose to write inventory followed by an existing object, 
-        it displays the content of the chosen file (description of the usefulness and objective... of this object)
+        inventory : lists the existing objects in your inventory.
+        inventory + [object] : displays the content of the chosen file, if it exists, like the description of the usefulness and objective of this object,
+        otherwise if the object does not exist, informs that the object does not exist in your inventory.
 
 SYSTEM CALLS:
-        open, read, write, close,readdir
+        open, read, write, close, readdir
 
 C LIBRARY FUNCTIONS:
         opendir, closedir
