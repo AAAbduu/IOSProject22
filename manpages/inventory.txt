@@ -5,8 +5,8 @@ SYNOPSIS:
         inventory [item] 
 
 DESCRIPTION: 
-        inventory : lists the existing objects in your inventory.
-        inventory + [object] : displays the content of the chosen file, if it exists, like the description of the usefulness and objective of this object,
+        inventory lists the existing objects in your inventory, or displays the content of the chosen file,
+        if it exists, like the description of the usefulness and objective of this object,
         otherwise if the object does not exist, informs that the object does not exist in your inventory.
 
 SYSTEM CALLS:
