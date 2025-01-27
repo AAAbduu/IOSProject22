@@ -1,2 +1,2 @@
 # IOSProject22
-EHU/UPV project from module Introduction to Operation Systems, year 2022.
+EHU/UPV project from module Introduction to Operative Systems, year 2022.
